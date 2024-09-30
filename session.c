@@ -420,11 +420,8 @@ session_next(struct session *s, int alert)
 	wl = winlink_next(s->curw);
 	if (alert)
 		wl = session_next_alert(wl);
-	if (wl == NULL) {
-		wl = RB_MIN(winlinks, &s->windows);
-		if (alert && ((wl = session_next_alert(wl)) == NULL))
-			return (-1);
-	}
+	if (wl == NULL)
+		return 0;
 	return (session_set_current(s, wl));
 }
 
@@ -451,11 +448,8 @@ session_previous(struct session *s, int alert)
 	wl = winlink_previous(s->curw);
 	if (alert)
 		wl = session_previous_alert(wl);
-	if (wl == NULL) {
-		wl = RB_MAX(winlinks, &s->windows);
-		if (alert && (wl = session_previous_alert(wl)) == NULL)
-			return (-1);
-	}
+	if (wl == NULL)
+		return 0;
 	return (session_set_current(s, wl));
 }
 
