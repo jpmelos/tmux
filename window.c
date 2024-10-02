@@ -219,9 +219,14 @@ winlink_previous(struct winlink *wl)
 struct winlink *
 winlink_next_by_number(struct winlink *wl, struct session *s, int n)
 {
+    struct winlink *next_wl;
+
 	for (; n > 0; n--) {
-		if ((wl = RB_NEXT(winlinks, wwl, wl)) == NULL)
-			wl = RB_MIN(winlinks, &s->windows);
+        next_wl = RB_NEXT(winlinks, wwl, wl);
+		if (next_wl != NULL)
+            wl = next_wl;
+        else
+			return NULL;
 	}
 
 	return (wl);
@@ -230,9 +235,14 @@ winlink_next_by_number(struct winlink *wl, struct session *s, int n)
 struct winlink *
 winlink_previous_by_number(struct winlink *wl, struct session *s, int n)
 {
+    struct winlink *prev_wl;
+
 	for (; n > 0; n--) {
-		if ((wl = RB_PREV(winlinks, wwl, wl)) == NULL)
-			wl = RB_MAX(winlinks, &s->windows);
+        prev_wl = RB_PREV(winlinks, wwl, wl);
+		if (prev_wl != NULL)
+            wl = prev_wl;
+        else
+			return NULL;
 	}
 
 	return (wl);
